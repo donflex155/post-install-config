@@ -65,9 +65,35 @@ Install IIS (Internet Information Services)
 (5) Clicked Install, waited for completion, and verified by visiting:
 The IIS welcome page confirmed a successful installation.
 
-<img width="1188" height="855" alt="image" src="https://github.com/user-attachments/assets/28cbd351-db49-4a02-8113-284d4626ca2f" />
+<img width="617" height="567" alt="image" src="https://github.com/user-attachments/assets/cf40a559-1c70-41ae-b639-27627ee04c46" />
 
-Admin Panel  dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Step 4:
+Install Microsoft Visual C++ Redistributable:
+The Microsoft Visual C++ Redistributable provides essential runtime libraries required for running applications like PHP, IIS extensions, and osTicket on Windows.
+This step ensures all required dependencies are available on your Azure Virtual Machine.
+(1) Determine System Type:
+    .On the Windows Server VM, right-click the Start Menu and select System.
+    .Under Device specifications, check whether your operating system type is 64-bit (x64) or 32-bit (x86).
+This will determine which redistributable package you need to install.
+(2) Download the Redistributable:
+    .Visit the official Microsoft download page:
+     Microsoft Visual C++ Redistributable Latest Supported Downloads
+    .Scroll to the Visual Studio 2015–2022 section.
+    .Download the correct installer for your system:
+     -VC_redist.x64.exe → for 64-bit systems
+     -VC_redist.x86.exe → for 32-bit systems
+(3) Run the Installer
+.Locate the downloaded file (typically in your Downloads folder).
+.Right-click the file and choose Run as administrator.
+.Accept the license terms and conditions.
+.Click Install.
+(4) Verify Installation:
+.Open Control Panel → Programs → Programs and Features.
+.Look for the following entries:
+-Microsoft Visual C++ 2015–2022 Redistributable (x64)
+-Microsoft Visual C++ 2015–2022 Redistributable (x86)
+.Confirm that the version matches the one you installed.
+Restart the VM. Your Azure Virtual Machine is now equipped with the Microsoft Visual C++ runtime
 
 <img width="1218" height="479" alt="image" src="https://github.com/user-attachments/assets/900f37ab-15bc-4ad6-8883-136e039a7d95" /> 
 
@@ -78,3 +104,10 @@ Roles
 
 <img width="1202" height="563" alt="image" src="https://github.com/user-attachments/assets/97aaf870-1065-4c0b-9d3c-f62ddc3bb38c" />
 Help Topic was successfully Created
+
+
+
+<img width="1188" height="855" alt="image" src="https://github.com/user-attachments/assets/28cbd351-db49-4a02-8113-284d4626ca2f" />
+
+
+
