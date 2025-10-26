@@ -31,7 +31,7 @@ This tutorial demonstrates the complete setup and configuration process for host
 - Access osTicket via Browser
 <h2>Configuration Steps</h2>
 
-<img width="1897" height="687" alt="image" src="https://github.com/user-attachments/assets/f90725dc-7c62-47d9-9a0c-92012f6e48f6" />
+<img width="1880" height="812" alt="image" src="https://github.com/user-attachments/assets/21a5f03c-c98e-4276-8de3-1fb40649e7b0" />
 
 Steps (1): 
 Create and Configure Azure Virtual Machine 
@@ -53,6 +53,11 @@ Connect to the VM via Remote Desktop (RDP)
 (3) Entered VM credentials to log in remotely.
 (4) Verified successful remote connection.
 
+<img width="555" height="496" alt="image" src="https://github.com/user-attachments/assets/f9f77f17-b534-41ea-b4b3-48163554a3b4" />
+
+Install / Enable IIS in Windows WITH CGI (Common Gateway Interface): CGI is a critical IIS feature that allows the web server to communicate with external applications, such as PHP, to generate dynamic web content. In other words, CGI acts as a “translator” between IIS and the PHP scripts running behind osTicket. CGI is a dependents the osTicket needs for part of the World Wide Web Server: 
+Go to Windows Features - World Wide Web Server - Application Development Features - CGI and click OK. to activate the CGI.
+
 
 <img width="1414" height="580" alt="image" src="https://github.com/user-attachments/assets/ad2b5d60-d8c5-43b3-8ca9-523f9bb9962f" />
 
@@ -67,7 +72,7 @@ The IIS welcome page confirmed a successful installation.
 
 <img width="617" height="567" alt="image" src="https://github.com/user-attachments/assets/cf40a559-1c70-41ae-b639-27627ee04c46" />
 
-Step 4:
+Step 4a:
 Install Microsoft Visual C++ Redistributable:
 The Microsoft Visual C++ Redistributable provides essential runtime libraries required for running applications like PHP, IIS extensions, and osTicket on Windows.
 This step ensures all required dependencies are available on your Azure Virtual Machine.
@@ -95,9 +100,106 @@ This will determine which redistributable package you need to install.
 .Confirm that the version matches the one you installed.
 Restart the VM. Your Azure Virtual Machine is now equipped with the Microsoft Visual C++ runtime
 
-<img width="1218" height="479" alt="image" src="https://github.com/user-attachments/assets/900f37ab-15bc-4ad6-8883-136e039a7d95" /> 
+<img width="617" height="507" alt="image" src="https://github.com/user-attachments/assets/41840ae8-7bbd-49ee-a655-811a424abbb6" />
 
-Roles
+Step 4b:
+Install and Configure PHP
+The PHP installation enables dynamic web content to run on IIS (Internet Information Services). osTicket relies on PHP to process its backend scripts and interact with the MySQL database.
+(1) Download PHP for Windows:
+.Go to the official PHP for Windows website:
+https://windows.php.net/download/
+.Under the Thread Safe section, select the latest x64 version compatible with your environment.
+(Example: PHP 8.2 or 8.3 for Windows x64 Thread Safe)
+.Download the .zip package — not the installer.
+(2) Extract and Organize PHP Files:
+.Create a folder for PHP on your system:
+.Extract the downloaded .zip file into the C:\PHP directory.
+.Confirm that php.exe and php-cgi.exe are inside the folder.
+(3)Configure PHP in the System Path:
+.Open Control Panel → System and Security → System → Advanced system settings.
+.Click Environment Variables.
+.Under System Variables, find Path → click Edit → click New.
+.Add the path: C:\PHP
+.Click OK to save all changes.
+.To verify, open Command Prompt and type: php -v
+-You should see your PHP version displayed.
+(4) Configure PHP in IIS:
+.Open IIS Manager (inetmgr from Run).
+.Click on your Server Name in the left panel.
+.Double-click Handler Mappings.
+.On the right panel, select Add Module Mapping.
+-Request Path: *.php
+-Module: FastCgiModule
+-Executable: C:\PHP\php-cgi.exe
+-Name: PHP_via_FastCGI
+.Click OK, then click Yes to confirm the creation of the FastCGI application.
+(5)Configure PHP.ini File:
+.Navigate to your PHP directory (C:\PHP).
+.Locate php.ini-development and rename it to: php.ini
+.Open php.ini in Notepad (Run as Administrator).
+.Find and enable the following extensions by removing the semicolon (;) at the start of each line: 
+-extension=mysqli
+-extension=curl
+-extension=gd
+-extension=mbstring
+-extension=intl
+-extension=xml
+.Save and close the file.
+
+
+
+
+<img width="619" height="479" alt="image" src="https://github.com/user-attachments/assets/defcf4d8-5ddd-44f1-84c3-dc9c02e1bac5" />
+
+Step 5:
+Install and Configure MySQL
+MySQL is the database management system used by osTicket to store and retrieve ticketing data, user details, and system configurations.
+In this step, you’ll install, configure, and verify MySQL on your Windows Server (Azure VM).
+(1)Download MySQL Installer
+.Visit the official MySQL downloads page:
+https://dev.mysql.com/downloads/installer/
+.Choose MySQL Installer for Windows (select the Community Edition).
+.Download the Windows (x64) MSI Installer.
+.Save it to your VM’s Downloads folder.
+(2)Run the MySQL Installer
+.Locate the downloaded installer (mysql-installer-community-x.x.x.msi).
+.Right-click and select Run as administrator.
+.Choose Server Only setup type and click Next.
+.Follow the prompts and accept the license agreement.
+.Click Execute to begin installation.
+(3)Configure MySQL Server:
+.In the Configuration section:
+-Choose Standalone MySQL Server / Classic MySQL Replication.
+-Select Development Computer as the configuration type.
+-Leave port 3306 as default.
+.Choose Authentication Method:
+-Select Use Strong Password Encryption for Authentication (RECOMMENDED).
+.Set a root password (make sure to save it securely).
+.Click Next → Execute to apply configuration settings.
+.Once completed, click Finish.
+(4)Verify MySQL Service:
+.Open Services (press Windows + R, type services.msc).
+.Locate MySQL in the list and ensure its Status shows Running.
+.If not running, right-click MySQL → select Start.
+(5)Configure a Database for osTicket:
+.Open MySQL Command Line Client or MySQL Workbench.
+.Log in using your root credentials.
+.Create a new database and user for osTicket:"CREATE DATABASE osticket;
+CREATE USER 'ostuser'@'localhost' IDENTIFIED BY 'Password123!';
+GRANT ALL PRIVILEGES ON osticket.* TO 'ostuser'@'localhost';
+FLUSH PRIVILEGES;"
+.Verify the database was created:"SHOW DATABASES;"
+(6)Test Database Connection:
+.To ensure MySQL is working correctly: Open Command Prompt and type:"mysql -u ostuser -p"
+.Enter the password you created.
+.If you see the mysql> prompt, the database connection is successful.
+(7)Optional Security Configuration:
+-For production or long-term hosting environments:
+.Disable remote root access:"UPDATE mysql.user SET Host='localhost' WHERE User='root';FLUSH PRIVILEGES;"
+-Regularly back up the osTicket database using:"mysqldump -u ostuser -p osticket > C:\backups\osticket_backup.sql"
+MySQL Server is now fully installed and configured on your Azure Virtual Machine.
+You have successfully created a dedicated database and user for osTicket, preparing your system for the final deployment stage.
+
 
 <img width="1207" height="482" alt="image" src="https://github.com/user-attachments/assets/57cebfb9-0bd3-4ee9-8716-bb67235866be" />
 3 SLA was successfully Created
