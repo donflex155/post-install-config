@@ -247,7 +247,7 @@ Reload IIS (Open IIS, Stop and Start the server)
 
 <img width="1017" height="871" alt="image" src="https://github.com/user-attachments/assets/c6850943-6e01-49b9-b0fa-0e6838fb94b6" />
 
-(6) Accessing the osTicket Site via IIS 
+6a. Accessing the osTicket Site via IIS 
 1 Once osTicket is deployed in IIS:
 . Open *IIS Manager* and navigate to the *Sites* node in the *Connections* panel.  
 . Expand *Default Web Site* and locate the *osTicket* application.  
@@ -255,7 +255,50 @@ Reload IIS (Open IIS, Stop and Start the server)
 . The osTicket site will open in your default web browser, confirming that IIS is correctly serving the application on port 80. The osTicket site is now live locally through IIS, ready for database configuration and initial setup.
 
 
-<img width="1188" height="855" alt="image" src="https://github.com/user-attachments/assets/28cbd351-db49-4a02-8113-284d4626ca2f" />
+<img width="1417" height="732" alt="image" src="https://github.com/user-attachments/assets/ab315640-c280-41df-95a4-048ffc194f52" />
+
+<img width="1025" height="914" alt="image" src="https://github.com/user-attachments/assets/a5b06cb1-b6b4-4320-92a8-d3a9c484d14d" />
+
+6b.
+Note that some extensions are not enabled and we have to enable it as required: To do that, we have to, Go back to IIS, sites -> Default -> osTicket Double-click PHP Manager, Click “double Enable or disable an extension” and right click on each requirement to enable each of it: Enable: php_imap.dll, Enable: php_intl.dll, Enable: php_opcache.dll Refresh the osTicket site in your browser, observe the changes and click continue.
+
+<img width="1017" height="920" alt="image" src="https://github.com/user-attachments/assets/ad7224ec-8a90-42ee-a360-d93105f6d362" />
 
 
+<img width="691" height="571" alt="image" src="https://github.com/user-attachments/assets/f24135c3-1584-458d-a543-44a127746f63" />
+
+6c.
+Finally Install "HeidiSQL", This is an application that allow us to make a connection to the database and comfigure
+
+<img width="1171" height="741" alt="image" src="https://github.com/user-attachments/assets/790c074c-856f-4c94-a71f-eb7b07cb94fe" />
+
+6d.
+Moreover, I created a new database named “osTicket” within HeidiSQL to support the application’s backend database for the osTicket application.
+
+
+<img width="1024" height="795" alt="image" src="https://github.com/user-attachments/assets/67a16a3b-c212-4aab-9dfa-26f8cd5e3dfd" />
+
+
+Steps 7:
+Access osTicket via Browser
+Finalizing osTicket Installation and Securing Configuration:
+Once osTicket has successfully connected to the database and all extensions are enabled, complete the setup and secure environment.
+1. Complete Installation:
+   - On the osTicket setup page, click Install Now.
+   - Wait for the installer to finish creating the necessary configuration files and database tables.
+2. Secure Configuration Files:
+   - Navigate to the osTicket installation directory, typically:
+     C:\inetpub\wwwroot\osTicket\include
+   - Locate the file "ost-config.php"
+   - Right-click the file → Properties → General tab → Check Read-only → Click Apply and OK.
+   - This prevents unauthorized modifications to osTicket’s configuration.
+3. Remove the Setup Folder:
+   - Delete the "setup" directory located in:
+     C:\inetpub\wwwroot\osTicket\setup
+   - Removing this folder enhances security by preventing reinstallation or configuration tampering.
+4. Access the Admin Dashboard:
+   - Open browser and visit:
+     http://localhost/osTicket/scp/login.php
+   - Log in using admin credentials created during setup.
+  osTicket is now fully installed, secured, and accessible via the web browser. The system is ready for ticket management, user configuration, and role-based administration.
 
