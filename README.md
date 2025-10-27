@@ -59,6 +59,10 @@ Install / Enable IIS in Windows WITH CGI (Common Gateway Interface): CGI is a cr
 Go to Windows Features - World Wide Web Server - Application Development Features - CGI and click OK. to activate the CGI.
 
 
+<img width="730" height="865" alt="image" src="https://github.com/user-attachments/assets/44e7af34-6c1a-4583-b012-b2689990dc5d" />
+
+This is the default IIS welcome page, which confirms that the World Wide Web Server (IIS) is active and functioning correctly after installing and enabling the CGI feature.
+
 <img width="1414" height="580" alt="image" src="https://github.com/user-attachments/assets/ad2b5d60-d8c5-43b3-8ca9-523f9bb9962f" />
 
 Step 3: 
