@@ -53,19 +53,36 @@ Connect to the VM via Remote Desktop (RDP)
 (3) Entered VM credentials to log in remotely.
 (4) Verified successful remote connection.
 
+
 <img width="555" height="496" alt="image" src="https://github.com/user-attachments/assets/f9f77f17-b534-41ea-b4b3-48163554a3b4" />
 
+
+Step 3a:
 Install / Enable IIS in Windows WITH CGI (Common Gateway Interface): CGI is a critical IIS feature that allows the web server to communicate with external applications, such as PHP, to generate dynamic web content. In other words, CGI acts as a “translator” between IIS and the PHP scripts running behind osTicket. CGI is a dependents the osTicket needs for part of the World Wide Web Server: 
 Go to Windows Features - World Wide Web Server - Application Development Features - CGI and click OK. to activate the CGI.
 
 
 <img width="730" height="865" alt="image" src="https://github.com/user-attachments/assets/44e7af34-6c1a-4583-b012-b2689990dc5d" />
 
+
+Step 3b:
 This is the default IIS welcome page, which confirms that the World Wide Web Server (IIS) is active and functioning correctly after installing and enabling the CGI feature.
+
+
+<img width="617" height="472" alt="image" src="https://github.com/user-attachments/assets/8bb472ef-a6cc-477c-a6ba-4b1e75a6bab4" />
+
+
+Step 3c:
+ IIS URL Rewrite Module installer package for 64-bit Windows systems, This is the IIS URL Rewrite Module, a Microsoft extension for Internet Information Services (IIS) that allows you to define rules for modifying (rewriting or redirecting) incoming web requests.
+. Example: turning http://example.com/page?id=1 into http://example.com/page/1.
+
+
 
 <img width="1414" height="580" alt="image" src="https://github.com/user-attachments/assets/ad2b5d60-d8c5-43b3-8ca9-523f9bb9962f" />
 
-Step 3: 
+
+
+Step 3d: 
 Install IIS (Internet Information Services)
 (1) Opened Server Manager → Add Roles and Features.
 (2) Selected Web Server (IIS).
@@ -74,7 +91,10 @@ Install IIS (Internet Information Services)
 (5) Clicked Install, waited for completion, and verified by visiting:
 The IIS welcome page confirmed a successful installation.
 
-<img width="617" height="567" alt="image" src="https://github.com/user-attachments/assets/cf40a559-1c70-41ae-b639-27627ee04c46" />
+
+
+<img width="598" height="376" alt="image" src="https://github.com/user-attachments/assets/268e75a5-307b-428a-b063-38230eaef17c" />
+
 
 Step 4a:
 Install Microsoft Visual C++ Redistributable:
@@ -103,6 +123,7 @@ This will determine which redistributable package you need to install.
 -Microsoft Visual C++ 2015–2022 Redistributable (x86)
 .Confirm that the version matches the one you installed.
 Restart the VM. Your Azure Virtual Machine is now equipped with the Microsoft Visual C++ runtime
+
 
 <img width="617" height="507" alt="image" src="https://github.com/user-attachments/assets/41840ae8-7bbd-49ee-a655-811a424abbb6" />
 
@@ -151,11 +172,16 @@ https://windows.php.net/download/
 .Save and close the file.
 
 
+<img width="622" height="468" alt="image" src="https://github.com/user-attachments/assets/32343641-6e2e-4db3-bb10-1b7fe196c4a0" />
 
 
-<img width="619" height="479" alt="image" src="https://github.com/user-attachments/assets/defcf4d8-5ddd-44f1-84c3-dc9c02e1bac5" />
+<img width="626" height="473" alt="image" src="https://github.com/user-attachments/assets/895c6098-9c2e-4a44-8b09-135daaf9eff4" />
 
-Step 5:
+
+<img width="625" height="476" alt="image" src="https://github.com/user-attachments/assets/90cf3323-d95e-49a3-b61e-a2b3c8176f6f" />
+
+
+Step 5a:
 Install and Configure MySQL
 MySQL is the database management system used by osTicket to store and retrieve ticketing data, user details, and system configurations.
 In this step, you’ll install, configure, and verify MySQL on your Windows Server (Azure VM).
@@ -205,12 +231,28 @@ MySQL Server is now fully installed and configured on your Azure Virtual Machine
 You have successfully created a dedicated database and user for osTicket, preparing your system for the final deployment stage.
 
 
-<img width="1207" height="482" alt="image" src="https://github.com/user-attachments/assets/57cebfb9-0bd3-4ee9-8716-bb67235866be" />
-3 SLA was successfully Created
+<img width="924" height="556" alt="image" src="https://github.com/user-attachments/assets/b671d73f-1cfb-4180-a999-0c41884eb5e7" />
 
-<img width="1202" height="563" alt="image" src="https://github.com/user-attachments/assets/97aaf870-1065-4c0b-9d3c-f62ddc3bb38c" />
-Help Topic was successfully Created
+5b:
+Register PHP from within IIS:
+This just means we are making the Web Server aware of the existence of PHP.
+IIS is now fully aware of PHP and can process dynamic PHP scripts. This step ensures the web server can properly handle osTicket’s PHP-based components and serve dynamic pages to end users.
 
+
+<img width="1419" height="675" alt="image" src="https://github.com/user-attachments/assets/60ebe993-523e-4689-938f-4c668ba0ffc9" />
+
+5c:
+Reload IIS (Open IIS, Stop and Start the server)
+
+
+<img width="1017" height="871" alt="image" src="https://github.com/user-attachments/assets/c6850943-6e01-49b9-b0fa-0e6838fb94b6" />
+
+(6) Accessing the osTicket Site via IIS 
+1 Once osTicket is deployed in IIS:
+. Open *IIS Manager* and navigate to the *Sites* node in the *Connections* panel.  
+. Expand *Default Web Site* and locate the *osTicket* application.  
+. In the *Actions* pane on the right, double-click *Browse *:80*.  
+. The osTicket site will open in your default web browser, confirming that IIS is correctly serving the application on port 80. The osTicket site is now live locally through IIS, ready for database configuration and initial setup.
 
 
 <img width="1188" height="855" alt="image" src="https://github.com/user-attachments/assets/28cbd351-db49-4a02-8113-284d4626ca2f" />
